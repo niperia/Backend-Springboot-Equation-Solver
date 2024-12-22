@@ -36,6 +36,7 @@ public class EquationSolverService {
     }
 
     public Mono<SolveEquationResponse> solveEquation(SolveEquationRequest request) {
+
         return webClient.post()
                 .uri("/api/solve")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -1,8 +1,4 @@
 package Equationsolver.Solver.dto;
-
-
-
-
 import Equationsolver.Solver.model.EquationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

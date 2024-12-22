@@ -1,55 +1,56 @@
 package Equationsolver.Solver.service;
 
 import Equationsolver.Solver.dto.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
-
-
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @Service
 public class EquationSolverService {
 
-    private final WebClient webClient;
-
     @Autowired
-    public EquationSolverService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:5000").build(); // Set the base URL once here
-    }
+    private WebClient webClient;
 
-    // Call Python API to initialize the model
-    public Mono<ModelInitializationResponse> initializeModel(SolveEquationRequest request) {
-        String url = "/api/initialize"; // Only the path since base URL is already set
 
+    public Mono<InitializeModelResponse> initializeModel(InitializeModelRequest request) {
         return webClient.post()
-                .uri(url)
-                .bodyValue(request)
+                .uri("/api/initialize")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(request), InitializeModelRequest.class)
                 .retrieve()
-                .bodyToMono(ModelInitializationResponse.class);
+                .bodyToMono(InitializeModelResponse.class);
     }
 
-    // Call Python API to solve the equation
     public Mono<SolveEquationResponse> solveEquation(SolveEquationRequest request) {
-        String url = "/api/solve"; // Only the path
-
         return webClient.post()
-                .uri(url)
-                .bodyValue(request)
+                .uri("/api/solve")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(request), SolveEquationRequest.class)
                 .retrieve()
-                .bodyToMono(SolveEquationResponse.class);
+                .bodyToMono(SolveEquationResponse.class)
+                .timeout(Duration.ofSeconds(60)) // Timeout duration of 60 seconds
+                .onErrorMap(throwable -> new RuntimeException("Timeout or other error occurred", throwable)); // Handle timeout or other errors
     }
 
-    // Health Check - To ensure the Python API is up
-    public Mono<HealthResponse> healthCheck() {
-        String url = "/health"; // Only the path
-
+    // Add a method for /health endpoint
+    public Mono<String> checkHealth(){
         return webClient.get()
-                .uri(url)
+                .uri("/health")
                 .retrieve()
-                .bodyToMono(HealthResponse.class);
+                .bodyToMono(String.class);
     }
 }

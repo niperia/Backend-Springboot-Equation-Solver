@@ -1,81 +1,35 @@
 package Equationsolver.Solver.dto;
 
 import java.util.List;
-
-
-
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SolveEquationResponse {
+
+    @JsonProperty("status")
     private String status;
+
+    @JsonProperty("data")
     private Data data;
 
+    // Getters and setters for status and data
+
     public static class Data {
+        @JsonProperty("status")
         private String status;
-        private List<Double> losses;
+        @JsonProperty("losses")
+        private double[] losses;
+        @JsonProperty("solution")
         private Solution solution;
+        // Getters and setters for status, losses, and solution
+
 
         public static class Solution {
-            private List<Double> x;
-            private List<Double> y;
-
-            // Getters and setters
-            public List<Double> getX() {
-                return x;
-            }
-
-            public void setX(List<Double> x) {
-                this.x = x;
-            }
-
-            public List<Double> getY() {
-                return y;
-            }
-
-            public void setY(List<Double> y) {
-                this.y = y;
-            }
+            @JsonProperty("x")
+            private double[] x;
+            @JsonProperty("y")
+            private double[] y; // Adapt for PDE case with multiple arrays
+            //Getters and setters for x and y (and potentially others for PDE)
         }
-
-        // Getters and setters
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public List<Double> getLosses() {
-            return losses;
-        }
-
-        public void setLosses(List<Double> losses) {
-            this.losses = losses;
-        }
-
-        public Solution getSolution() {
-            return solution;
-        }
-
-        public void setSolution(Solution solution) {
-            this.solution = solution;
-        }
-    }
-
-    // Getters and setters
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
     }
 }

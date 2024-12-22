@@ -2,11 +2,17 @@ package Equationsolver.Solver.dto;
 
 
 public class HealthResponse {
-    private String status;
-    private String service;
-    private String version;
 
-    // Getters and setters
+    private String status;
+    private String message;
+
+    public HealthResponse(String status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
+    // Getters and Setters
+
     public String getStatus() {
         return status;
     }
@@ -15,19 +21,11 @@ public class HealthResponse {
         this.status = status;
     }
 
-    public String getService() {
-        return service;
+    public String getMessage() {
+        return message;
     }
 
-    public void setService(String service) {
-        this.service = service;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -18,7 +18,7 @@ public class WebClientConfig {
                 .baseUrl("http://localhost:5000") // Replace with your Python API URL
                 .defaultHeader("Content-Type", "application/json")
                 .filter((request, next) -> next.exchange(request)
-                        .timeout(Duration.ofSeconds(60)) // Set timeout duration as needed
+                        .timeout(Duration.ofSeconds(120)) // Set timeout duration as needed
                         .onErrorMap(throwable -> new RuntimeException("Timeout Occurred!"))) // Handle timeout errors
                 .build();
 

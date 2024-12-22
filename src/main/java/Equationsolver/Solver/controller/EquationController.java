@@ -24,10 +24,10 @@ public class EquationController {
 
 
     @PostMapping("/api/solve")
-    public Mono<ResponseEntity<SolveEquationResponse>> solveEquation(@RequestBody SolveEquationRequest request) {
+    public ResponseEntity<SolveEquationResponse> solveEquation(@RequestBody SolveEquationRequest request) {
         return equationService.solveEquation(request)
                 .map(ResponseEntity::ok)
-                .onErrorResume(error -> Mono.just(ResponseEntity.badRequest().build()));
+                .onErrorResume(error -> Mono.just(ResponseEntity.badRequest().build())).block();
     }
 
     @GetMapping("/health")

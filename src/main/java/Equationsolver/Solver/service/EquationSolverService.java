@@ -42,7 +42,7 @@ public class EquationSolverService {
                 .body(Mono.just(request), SolveEquationRequest.class)
                 .retrieve()
                 .bodyToMono(SolveEquationResponse.class)
-                .timeout(Duration.ofSeconds(60)) // Timeout duration of 60 seconds
+                .timeout(Duration.ofSeconds(120)) // Timeout duration of 60 seconds
                 .onErrorMap(throwable -> new RuntimeException("Timeout or other error occurred", throwable)); // Handle timeout or other errors
     }
 
